@@ -1,4 +1,4 @@
-import { RefDTO } from "./ref.dto";
+import { RefDTO } from "../services/domain/ref.dto";
 
 export interface ItemPedidoDTO {
     quantidade: number;
