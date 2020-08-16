@@ -30,13 +30,26 @@ export class HomePage {
   login(){
     this.auth.authenticate(this.creds)
     .subscribe(response => {
-      this.auth.succesfulLogin(response.headers.get('Authorization'));
+      this.auth.successfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot('CategoriasPage');
     },
-    error => {});
+    error => {}
+    );
   }
 
- 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        console.log("login com sucesso")
+;        this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.navCtrl.setRoot('CategoriasPage');
+      },
+      error => {
+        console.log("Erro no login");
+      });  
+  }
+
+
   ionViewWillEnter() {
   this.menu.swipeEnable(false);
   }
