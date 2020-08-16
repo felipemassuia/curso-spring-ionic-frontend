@@ -5,7 +5,8 @@ import { EnderecoDTO } from '../../models/endereco.dto';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { ClienteService } from '../../services/domain/cliente.service';
 import { CartService } from '../../services/domain/cart.service';
-import { PedidoDTO } from '../../services/domain/pedido.dto';
+import { PedidoDTO } from '../../models/pedido.dto';
+import { PedidoService } from '../../services/domain/pedido.service';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class OrderConfirmationPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public clienteService: ClienteService,
-    public cartService: CartService) {
+    public cartService: CartService,
+    public pedidoService: PedidoService) {
 
     this.pedido = this.navParams.get('pedido');
   }
@@ -38,6 +40,23 @@ export class OrderConfirmationPage {
       },
       error => {
         this.navCtrl.setRoot('HomePage');
+      });
+  }
+
+  back() {
+    this.navCtrl.setRoot('CartPage');
+  }
+
+  checkout() {
+    this.pedidoService.insert(this.pedido)
+      .subscribe(response => {
+        this.cartService.createOrClearCart();
+        console.log(response.headers.get('location'));
+      },
+      error => {
+        if (error.status == 403) {
+          this.navCtrl.setRoot('HomePage');
+        }
       });
   }
 

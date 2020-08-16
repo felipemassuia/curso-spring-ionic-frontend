@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PedidoDTO } from '../../services/domain/pedido.dto';
+import { PedidoDTO } from '../../models/pedido.dto';
 
 @IonicPage()
 @Component({
